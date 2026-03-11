@@ -8,7 +8,7 @@ async function signup(){
 let email = document.getElementById("signup_email").value
 let password = document.getElementById("signup_pass").value
 
-await fetch(API + "/signup",{
+let res = await fetch(API + "/signup",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -19,7 +19,13 @@ password:password
 })
 })
 
+let data = await res.json()
+
+if(data.status==="success"){
 alert("Signup successful")
+}else{
+alert("Signup failed")
+}
 
 }
 
@@ -96,7 +102,11 @@ let data=await res.json()
 let html="<h3>History</h3>"
 
 data.forEach(img=>{
-html+=`<br><a href="${API}/download?path=${img}" target="_blank">Download</a>`
+
+html+=`<div class="history-card">
+<a href="${API}/download?path=${img}" target="_blank">Download Image</a>
+</div>`
+
 })
 
 document.getElementById("history").innerHTML=html
