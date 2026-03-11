@@ -3,45 +3,48 @@
 
 <head>
 
-<title>Blue Dehazer</title>
+<title>Image Dehazer</title>
+
 <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<h1>Blue Image Dehazer</h1>
+<h1>Image Dehazer</h1>
 
 <div id="auth">
 
 <h2>Signup</h2>
 
-<input id="su_user" placeholder="username">
-<input id="su_pass" type="password" placeholder="password">
+<input id="signup_email" placeholder="Email">
+<input id="signup_pass" type="password" placeholder="Password">
 
 <button onclick="signup()">Signup</button>
 
+<hr>
+
 <h2>Login</h2>
 
-<input id="li_user" placeholder="username">
-<input id="li_pass" type="password" placeholder="password">
+<input id="login_email" placeholder="Email">
+<input id="login_pass" type="password" placeholder="Password">
 
 <button onclick="login()">Login</button>
 
 </div>
+
 
 <div id="dashboard" style="display:none">
 
 <h2>Upload Hazy Image</h2>
 
 <input type="file" id="image">
+
 <button onclick="upload()">Dehaze</button>
 
 <br><br>
 
-<img id="result">
-
-<h2>Your History</h2>
+<button onclick="loadHistory()">View History</button>
 
 <div id="history"></div>
 
@@ -50,4 +53,5 @@
 <script src="script.js"></script>
 
 </body>
+
 </html>
