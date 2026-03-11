@@ -42,26 +42,44 @@ def init_db():
 init_db()
 
 # ---------------- DEHAZE FUNCTION ----------------
-
 def dehaze_image(path):
 
     img = cv2.imread(path)
 
-    lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
-    l,a,b = cv2.split(lab)
+    # Resize large images (improves Render performance)
+    h, w = img.shape[:2]
+    if w > 1200:
+        scale = 1200 / w
+        img = cv2.resize(img, (int(w*scale), int(h*scale)))
 
-    clahe = cv2.createCLAHE(clipLimit=3.0,tileGridSize=(8,8))
-    cl = clahe.apply(l)
+    # ----- White Balance -----
+    result = cv2.xphoto.simpleWB(img)
 
-    limg = cv2.merge((cl,a,b))
-    final = cv2.cvtColor(limg,cv2.COLOR_LAB2BGR)
+    # ----- Convert to LAB -----
+    lab = cv2.cvtColor(result, cv2.COLOR_BGR2LAB)
+    l, a, b = cv2.split(lab)
+
+    # ----- CLAHE on Lightness -----
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    l = clahe.apply(l)
+
+    lab = cv2.merge((l,a,b))
+    result = cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
+
+    # ----- Slight Sharpening -----
+    kernel = np.array([[0,-1,0],
+                       [-1,5,-1],
+                       [0,-1,0]])
+
+    result = cv2.filter2D(result, -1, kernel)
 
     filename = os.path.basename(path)
     new_path = os.path.join(DEHAZE_FOLDER, filename)
 
-    cv2.imwrite(new_path, final)
+    cv2.imwrite(new_path, result)
 
     return new_path
+
 
 # ---------------- SIGNUP ----------------
 
