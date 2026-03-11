@@ -4,9 +4,13 @@ import sqlite3
 import os
 import cv2
 import numpy as np
+import uuid
 
 app = Flask(__name__)
 CORS(app)
+
+# Limit upload size (important for Render free tier)
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
 UPLOAD_FOLDER = "uploads"
 DEHAZE_FOLDER = "dehazed"
@@ -42,31 +46,32 @@ def init_db():
 init_db()
 
 # ---------------- DEHAZE FUNCTION ----------------
+
 def dehaze_image(path):
 
     img = cv2.imread(path)
 
-    # Resize large images (improves Render performance)
+    # Resize large images (better for Render RAM)
     h, w = img.shape[:2]
     if w > 1200:
         scale = 1200 / w
         img = cv2.resize(img, (int(w*scale), int(h*scale)))
 
-    # ----- White Balance -----
+    # White balance
     result = cv2.xphoto.simpleWB(img)
 
-    # ----- Convert to LAB -----
+    # Convert to LAB
     lab = cv2.cvtColor(result, cv2.COLOR_BGR2LAB)
     l, a, b = cv2.split(lab)
 
-    # ----- CLAHE on Lightness -----
+    # CLAHE contrast
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
     l = clahe.apply(l)
 
     lab = cv2.merge((l,a,b))
     result = cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
 
-    # ----- Slight Sharpening -----
+    # Sharpen
     kernel = np.array([[0,-1,0],
                        [-1,5,-1],
                        [0,-1,0]])
@@ -76,10 +81,10 @@ def dehaze_image(path):
     filename = os.path.basename(path)
     new_path = os.path.join(DEHAZE_FOLDER, filename)
 
-    cv2.imwrite(new_path, result)
+    # Save compressed JPEG
+    cv2.imwrite(new_path, result, [cv2.IMWRITE_JPEG_QUALITY, 90])
 
     return new_path
-
 
 # ---------------- SIGNUP ----------------
 
@@ -134,7 +139,10 @@ def dehaze():
     user_id = request.form["user_id"]
     file = request.files["image"]
 
-    path = os.path.join(UPLOAD_FOLDER,file.filename)
+    # Generate unique filename
+    filename = str(uuid.uuid4()) + ".jpg"
+
+    path = os.path.join(UPLOAD_FOLDER, filename)
 
     file.save(path)
 
@@ -151,7 +159,12 @@ def dehaze():
     conn.commit()
     conn.close()
 
-    return send_file(new_path, as_attachment=True)
+    return send_file(
+        new_path,
+        mimetype="image/jpeg",
+        as_attachment=True,
+        download_name="dehazed.jpg"
+    )
 
 # ---------------- USER HISTORY ----------------
 
@@ -179,7 +192,14 @@ def download():
 
     path = request.args.get("path")
 
-    return send_file(path, as_attachment=True)
+    if not os.path.exists(path):
+        return jsonify({"error":"file not found"})
+
+    return send_file(
+        path,
+        mimetype="image/jpeg",
+        as_attachment=True
+    )
 
 # ---------------- RUN ----------------
 
