@@ -1,89 +1,123 @@
-const API = "https://dehazer-sf8p.onrender.com"
+const API="https://dehazer1.onrender.com"
 
-let current_user=""
+let user_id=null
 
-function signup(){
 
-fetch(API+"/signup",{
+async function signup(){
+
+let email=document.getElementById("signup_email").value
+let password=document.getElementById("signup_pass").value
+
+let res=await fetch(API+"/signup",{
+
 method:"POST",
-headers:{"Content-Type":"application/json"},
+
+headers:{
+"Content-Type":"application/json"
+},
+
 body:JSON.stringify({
-username:su_user.value,
-password:su_pass.value
+email:email,
+password:password
 })
-}).then(r=>r.json()).then(d=>{
-alert("Signup success")
+
 })
+
+alert("Signup successful")
 
 }
 
-function login(){
 
-fetch(API+"/login",{
+
+async function login(){
+
+let email=document.getElementById("login_email").value
+let password=document.getElementById("login_pass").value
+
+let res=await fetch(API+"/login",{
+
 method:"POST",
-headers:{"Content-Type":"application/json"},
+
+headers:{
+"Content-Type":"application/json"
+},
+
 body:JSON.stringify({
-username:li_user.value,
-password:li_pass.value
+email:email,
+password:password
 })
-}).then(r=>r.json()).then(d=>{
 
-if(d.status=="success"){
+})
 
-current_user=li_user.value
+let data=await res.json()
 
-auth.style.display="none"
-dashboard.style.display="block"
+if(data.status==="success"){
 
-load_history()
+user_id=data.user_id
+
+document.getElementById("auth").style.display="none"
+document.getElementById("dashboard").style.display="block"
 
 }else{
 
-alert("Login failed")
+alert("Invalid Login")
 
 }
 
-})
-
 }
 
-function upload(){
 
-let file=image.files[0]
+
+async function upload(){
+
+let file=document.getElementById("image").files[0]
 
 let form=new FormData()
+
+form.append("user_id",user_id)
 form.append("image",file)
-form.append("username",current_user)
 
-fetch(API+"/upload",{method:"POST",body:form})
-.then(r=>r.blob())
-.then(b=>{
+let res=await fetch(API+"/dehaze",{
 
-result.src=URL.createObjectURL(b)
+method:"POST",
 
-load_history()
+body:form
 
 })
+
+let blob=await res.blob()
+
+let url=window.URL.createObjectURL(blob)
+
+let a=document.createElement("a")
+
+a.href=url
+a.download="dehazed.jpg"
+
+a.click()
 
 }
 
-function load_history(){
 
-fetch(API+"/history/"+current_user)
-.then(r=>r.json())
-.then(data=>{
 
-history.innerHTML=""
+async function loadHistory(){
 
-data.forEach(p=>{
+let res=await fetch(API+"/history/"+user_id)
 
-history.innerHTML+=`<br>
-<a href="${API}/download?path=${p}" target="_blank">
+let data=await res.json()
+
+let html="<h3>Your Images</h3>"
+
+data.forEach(img=>{
+
+html+=`<br>
+<a href="${API}/download?path=${img}" target="_blank">
 Download Image
-</a>`
+</a>
+`
 
 })
 
-})
+document.getElementById("history").innerHTML=html
 
 }
