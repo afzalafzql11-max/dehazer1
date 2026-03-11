@@ -1,55 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>AI Image Dehazer</title>
 
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<h1 class="title">AI Image Dehazer</h1>
-
 <div class="container">
 
-<div id="auth">
+<h1 class="title">AI Image Dehazer</h1>
+<p class="subtitle">Upload hazy images and restore clarity instantly</p>
 
-<h2>Login</h2>
-
-<input id="login_email" placeholder="Email">
-<input id="login_pass" type="password" placeholder="Password">
-
-<button onclick="login()">Login</button>
-
-<hr>
-
-<h2>Signup</h2>
-
-<input id="signup_email" placeholder="Email">
-<input id="signup_pass" type="password" placeholder="Password">
-
-<button onclick="signup()">Signup</button>
-
-</div>
-
-
-<div id="dashboard" style="display:none">
-
-<h2>Upload Hazy Image</h2>
+<div class="card">
 
 <input type="file" id="image">
 
-<button onclick="upload()">Dehaze</button>
-
-<div id="history"></div>
+<button onclick="uploadImage()">Enhance Image</button>
 
 </div>
 
 </div>
 
-<script src="/script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
