@@ -2,42 +2,46 @@
 <html>
 
 <head>
-<title>AI Image Dehazer</title>
+
+<title>Blue Dehazer</title>
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<h1 class="title">AI Image Dehazer</h1>
+<h1>Blue Image Dehazer</h1>
 
-<div class="card" id="auth">
+<div id="auth">
 
 <h2>Signup</h2>
 
-<input id="signup_email" placeholder="Email">
-<input id="signup_password" type="password" placeholder="Password">
-<button onclick="signup()">Signup</button>
+<input id="su_user" placeholder="username">
+<input id="su_pass" type="password" placeholder="password">
 
-<hr>
+<button onclick="signup()">Signup</button>
 
 <h2>Login</h2>
 
-<input id="login_email" placeholder="Email">
-<input id="login_password" type="password" placeholder="Password">
+<input id="li_user" placeholder="username">
+<input id="li_pass" type="password" placeholder="password">
+
 <button onclick="login()">Login</button>
 
 </div>
 
-
-<div class="card" id="dashboard" style="display:none">
+<div id="dashboard" style="display:none">
 
 <h2>Upload Hazy Image</h2>
 
 <input type="file" id="image">
-<button onclick="uploadImage()">Dehaze Image</button>
+<button onclick="upload()">Dehaze</button>
 
-<h3>History</h3>
-<button onclick="loadHistory()">Load History</button>
+<br><br>
+
+<img id="result">
+
+<h2>Your History</h2>
 
 <div id="history"></div>
 
