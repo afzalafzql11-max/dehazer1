@@ -8,7 +8,7 @@ async function signup(){
 const email = document.getElementById("signup_email").value
 const password = document.getElementById("signup_password").value
 
-const res = await fetch(API + "/signup",{
+const res = await fetch(API + "https://image1dehazer.onrender.com",{
 
 method:"POST",
 headers:{"Content-Type":"application/json"},
@@ -29,7 +29,7 @@ async function login(){
 const email = document.getElementById("login_email").value
 const password = document.getElementById("login_password").value
 
-const res = await fetch(API + "/login",{
+const res = await fetch(API + "https://image1dehazer.onrender.com",{
 
 method:"POST",
 headers:{"Content-Type":"application/json"},
@@ -72,7 +72,7 @@ const formData = new FormData()
 formData.append("image",file)
 formData.append("user_id",USER_ID)
 
-const res = await fetch(API + "/dehaze",{
+const res = await fetch(API + "https://image1dehazer.onrender.com",{
 
 method:"POST",
 body:formData
