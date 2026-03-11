@@ -1,118 +1,72 @@
-/* ---------- RESET ---------- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
 }
 
-/* ---------- BODY ---------- */
-body {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
   background: linear-gradient(135deg, #74ebd5, #acb6e5);
-  overflow: hidden;
+  color: #fff;
 }
 
-/* ---------- MAIN CARD ---------- */
-#auth, #dashboard {
-  width: 380px;
-  background: rgba(255, 255, 255, 0.15);
+form{
+  background: rgba(255,255,255,0.15);
   backdrop-filter: blur(15px);
-  border-radius: 16px;
   padding: 40px 30px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  color: #fff;
+  border-radius: 16px;
   text-align: center;
-  transition: 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
 }
 
-/* ---------- HEADINGS ---------- */
-h1 {
-  color: #fff;
-  font-size: 42px;
-  margin-bottom: 30px;
-  letter-spacing: 1px;
+h2{
+  margin-bottom:20px;
+  font-weight:500;
 }
 
-h2 {
-  margin-bottom: 20px;
-  font-weight: 500;
+input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.1);
+  color:#fff;
+  font-size:14px;
 }
 
-/* ---------- INPUTS ---------- */
-input {
-  width: 100%;
-  padding: 12px 15px;
-  margin: 8px 0;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  font-size: 14px;
-  outline: none;
-  transition: 0.3s;
+input::placeholder{
+  color: rgba(255,255,255,0.7);
 }
 
-input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+button{
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  border:none;
+  border-radius:12px;
+  background: linear-gradient(135deg,#667eea,#764ba2);
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+  font-weight:500;
 }
 
-input:focus {
-  border-color: #ffffff;
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 6px 20px rgba(0,0,0,0.2);
 }
 
-/* ---------- BUTTONS ---------- */
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 12px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: 0.3s;
+a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:500;
 }
 
-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* ---------- LINKS ---------- */
-a {
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* ---------- HISTORY ---------- */
-#history {
-  margin-top: 20px;
-  max-height: 200px;
-  overflow-y: auto;
-  text-align: left;
-}
-
-#history img {
-  width: 100%;
-  margin-top: 10px;
-  border-radius: 12px;
-}
-
-/* ---------- FILE INPUT ---------- */
-input[type="file"] {
-  border: none;
-  color: #fff;
+a:hover{
+  text-decoration:underline;
 }
